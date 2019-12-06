@@ -1,3 +1,15 @@
 :focus{
 outline:none;
 }
+.form{
+  width: 49%;
+  float: left;
+}
+.stampaArray{
+  width: 49%;
+  float: left;
+  margin-left: 2%;
+}
+#r1{
+  width: 97%;
+}

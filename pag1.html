@@ -4,6 +4,7 @@
     <title>Pag1</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="style.css">
+
   </head>
 
   <body >
@@ -26,153 +27,47 @@
       </header>
 
           <article style= display>
-            <h1>Inserisci Utenti</h1>
 
-             <form name="datiUtente" method="post"  oninput="myFunction()" onsubmit="returnObject(event)">
-               <fieldset>
-                  <input type="text" placeholder="NOME" id="id_nome">
-                  <input type="email" placeholder="E-MAIL" id="id_email">
-                  <input  type="text" id="id_eta">
-                  <button type="submit" >SUBMIT</button>
-                  <p id="checkReturn">check: </p>
-               </fieldset>
-             </form>
+<h1>Inserisci Utenti</h1>
+            <div class="form">
 
-             <p id="text_color" >Stringa testo cambia colore </p>
-             <button id="btn_red" >Red</button>
-             <button id="btn_blue" >Blue+Size</button>
-             <button id="btn_custom" >Green++Size</button>
+                <form name="datiUtente" method="post"  oninput="myFunction()" onsubmit="returnObject(event)">
+                  <fieldset>
+                     <input type="text" placeholder="NOME" id="id_nome">
+                     <input type="email" placeholder="E-MAIL" id="id_email">
+                     <input  type="text" id="id_eta">
+                     <button type="submit" >SUBMIT</button>
+                     <p id="checkReturn">check: </p>
+                  </fieldset>
+                </form>
+            </div>
 
-             <br><br>
+            <div class="stampaArray">
+              <button id="r1" >STAMPA ARRAY</button>
+              <textarea id="textArea" rows="5" cols="80"></textarea>
+            </div>
 
-             <button id="btn_boss">Premi</button>
-             <button id="btn_funzione">BOTTONE</button>
+            <br>
 
-             <br><br><br>
-             <button id="r1" >PROVA</button>
-             <br>
-             <textarea id="textArea" rows="5" cols="80"></textarea>
+            <p id="text_color" >Stringa testo cambia colore </p>
+
+            <br>
+
+            <button id="btn_boss">Premi</button>
+            <button id="btn_funzione">BOTTONE</button>
+
+            <br><br>
+
+            <input type="text" placeholder="SEARCH" id="nameSearch">
+            <input style="display:none" placeholder="altro valore per search" type="text" id="NameSearch1">
+            <button id="src" >SEARCH</button>
+            <button id="delete" >DELETE</button>
+            <br>
+            <textarea id="textArea1" rows="5" cols="80"></textarea>
 
           </article>
 
     </section>
-
-    <script>
-        var myJSON;
-        var n=0;
-        var Nome;
-        var Email;
-
-        if(!localStorage.getItem("testJSON")){
-          localStorage.setItem("testJSON","[]");
-        }
-        var Utenti = JSON.parse(localStorage.getItem("testJSON"));
-        console.log("UTENTI = ");
-        console.log(Utenti);
-//  btn display
-        document.getElementById("btn_boss").onclick = btnDisplay;
-
-        function btnDisplay(){
-            btn= document.getElementById("btn_funzione");
-            switch (n) {
-              case 0:
-                  btn.style.display = "none";//sparisce
-                  n++;
-                break;
-              case 1:
-                  btn.style.display = "inline";//riappare
-                  n = n-1;
-                break;
-            }
-        }
-
-//  stile text_color
-        document.getElementById('btn_red').onclick = changeRed;
-        document.getElementById('btn_blue').onclick = changeBlue;
-        document.getElementById('btn_custom').onclick = changeCustom;
-
-        function changeRed(){
-            document.getElementById("text_color").style.color="red";
-            document.getElementById("text_color").style.fontSize = "medium";
-        }
-        function changeBlue(){
-            document.getElementById("text_color").style.color="blue";
-            document.getElementById("text_color").style.fontSize = "x-large";
-        }
-        function changeCustom(){
-            document.getElementById("text_color").style.color="green";
-            document.getElementById("text_color").style.fontSize = "xx-large";
-        }
-
-//stampa l'oggetto persona aggiunto
-        function returnObject(event){
-            event.preventDefault();
-             persona = new Utente(Nome, Email);
-             Utenti.push(persona);
-
-             myJSON = JSON.stringify(Utenti);
-             localStorage.setItem("testJSON", myJSON);
-
-             var index = Utenti.lastIndexOf(persona);
-             document.getElementById('checkReturn').innerHTML = Utenti[index].viewObject() ;
-
-        }
-//  stampa l'intero array
-        document.getElementById('r1').onclick = stampaTodo;
-        function stampaTodo(){
-            for (var i = 0; i < Utenti.length; i++) {
-              document.getElementById("textArea").innerHTML += Utenti[i].viewObjectArea();
-              document.getElementById("textArea").innerHTML += "&#10";
-              document.getElementById("textArea").style.backgroundColor = "rgba(102, 255, 0, 0.3)";
-            }
-        }
-
-//  funzione registrazione
-        function myFunction(){
-            Nome = checkName();
-            Email = checkEmail();
-        }
-
-        //  check name
-        function checkName(){
-            var nome = document.forms["datiUtente"]["id_nome"].value;
-            if (isNaN(nome)) {
-              document.getElementById('id_nome').style.backgroundColor="rgba(102, 255, 0, 0.3)";
-              return nome;
-            }else {
-              document.getElementById('id_nome').style.backgroundColor="rgba(255, 0, 0, 0.3)";
-            }
-        }
-        //  check email
-        function checkEmail(){
-            var email = document.forms["datiUtente"]["id_email"].value;
-            if(validEmail(email)){
-              document.getElementById('id_email').style.backgroundColor="rgba(102, 255, 0, 0.3)";
-              return email;
-            }else {
-              document.getElementById('id_email').style.backgroundColor="rgba(255, 0, 0, 0.3)";
-            }
-        }
-        function validEmail(email){
-            var re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-            return re.test(email);
-        }
-
-        //  classe Utente
-        class Utente{
-          constructor(num, eml){
-            this.nome = num;
-            this.email = eml;
-          }
-          viewObject(){
-            return "Ciao <b>" + this.nome +"</b>, la tua email è: <b>" + this.email + "</b>, tutto è stato aggiunto correttamente";
-          }
-          viewObjectArea(){
-            return "Ciao " + this.nome +", la tua email è: " + this.email;
-          }
-        }
-
-    </script>
-
+<script src="myScript.js"></script>
   </body>
 </html>
